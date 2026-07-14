@@ -1,53 +1,127 @@
-# TalentFilter AI
+# TalentFilter AI / CimTalent AI
 
-TalentFilter AI, iş ilanı ayrıştırma, aday keşfi, enrichment, eşleştirme ve recruiter shortlist süreçleri için uçtan uca MVP’dir.
+> Yapay zekâ destekli iş ilanı analizi, aday keşfi ve açıklanabilir eşleşme platformu.
+> AI-powered job analysis, candidate discovery, and explainable matching platform.
 
-## Mimari
+---
 
-`frontend` React/Vite uygulamasıdır; Nginx `/api/` çağrılarını FastAPI `backend` servisine yönlendirir. Backend Alembic migration’larıyla PostgreSQL `db` servisini kullanır. Compose servisleri: `db`, `backend`, `frontend`.
+## Türkçe
 
-## Hızlı başlangıç
+### Proje Hakkında
 
-Windows:
+**TalentFilter AI**, iş ilanlarını analiz ederek gerekli unvan, beceri, deneyim, eğitim, dil, sertifika, lokasyon ve sektör bilgilerini çıkaran bir aday bulma ve eşleştirme platformudur.
 
-`copy .env.example .env`
+Sistem uygun arama sorguları üretir, aday profillerini işler ve iş ilanı ile aday arasında `0–100` arası açıklanabilir eşleşme puanı hesaplar.
 
-`docker compose up --build`
+Bu proje IT stajı kapsamında eğitim ve araştırma amacıyla geliştirilmiştir.
 
-Linux/macOS:
+### Özellikler
 
-`cp .env.example .env`
+* Türkçe ve İngilizce iş ilanı analizi
+* X-Ray arama sorgusu oluşturma
+* SearchResult üzerinden aday keşfi
+* Aday profil zenginleştirme
+* Veri kalitesi ve duplicate kontrolü
+* Açıklanabilir aday eşleşme puanı
+* Shortlist ve CSV dışa aktarma
+* React dashboard
+* Docker Compose desteği
 
-`docker compose up --build`
+### Teknolojiler
 
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+**Backend:** Python, FastAPI, SQLAlchemy, PostgreSQL, Alembic, Pytest
+**Frontend:** React, TypeScript, Vite, Tailwind CSS, TanStack Query
+**Container:** Docker Compose, Nginx
 
-## Migration, demo seed ve smoke
+### Kurulum
 
-`docker compose exec backend alembic upgrade head`
+```bash
+git clone <repository-url>
+cd TalentFilter
+cp .env.example .env
+docker compose up -d --build
+```
 
-`docker compose exec backend python -m app.scripts.seed_demo`
+### Adresler
 
-`docker compose exec backend python -m app.scripts.demo_smoke`
+* Frontend: `http://localhost:3000`
+* Backend: `http://localhost:8000`
+* Swagger: `http://localhost:8000/docs`
 
-## Test ve manuel geliştirme
+### Demo
 
-Backend: `cd backend` ardından `pytest`, `ruff check app tests`, `mypy app`.
+```bash
+docker compose exec backend python -m app.scripts.seed_demo
+docker compose exec backend python -m app.scripts.demo_smoke
+```
 
-Frontend: `cd frontend`, `npm install`, ardından `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`.
+### Test
 
-Makefile: `up`, `down`, `build`, `logs`, `backend-logs`, `frontend-logs`, `migrate`, `seed`, `smoke`, `test-backend`, `test-frontend`, `test`, `lint`, `clean`.
+```bash
+docker compose exec backend pytest
+docker compose exec backend ruff check .
+docker compose exec backend mypy .
+```
 
-## Uçtan uca demo
+---
 
-Demo ilanını açın, requirement ve X-Ray sorgularını inceleyin; SearchResult’tan aday keşfedin, fixture enrichment çalıştırın, match detayını görüntüleyin, shortlist not/durumunu güncelleyin ve CSV indirin.
+## English
 
-## LinkedIn ve güvenlik
+### About
 
-Fixture enrichment varsayılan olarak açıktır ve ağ çağrısı gerektirmez. Live LinkedIn özelliği varsayılan kapalıdır. `.env`, `.sessions` ve `.artifacts` kaynak kontrolüne alınmamalıdır; production için örnek şifreler değiştirilmeli ve güçlü secret’lar kullanılmalıdır.
+**TalentFilter AI** is a candidate sourcing and matching platform that analyzes job descriptions and extracts requirements such as title, skills, experience, education, language, certification, location, and industry.
 
-## Bilinen sınırlamalar
+It generates sourcing queries, processes candidate profiles, and calculates an explainable matching score between `0` and `100`.
 
-Bu MVP’de auth, Redis/Celery/worker, LLM/embedding, canlı kişi araması, production TLS ve cloud deployment yoktur.
+The project was developed for educational and research purposes as part of an IT internship.
+
+### Features
+
+* Turkish and English job parsing
+* X-Ray query generation
+* Candidate discovery from search results
+* Candidate profile enrichment
+* Data-quality and duplicate checks
+* Explainable candidate matching
+* Shortlist and CSV export
+* React dashboard
+* Docker Compose support
+
+### Technology Stack
+
+**Backend:** Python, FastAPI, SQLAlchemy, PostgreSQL, Alembic, Pytest
+**Frontend:** React, TypeScript, Vite, Tailwind CSS, TanStack Query
+**Container:** Docker Compose, Nginx
+
+### Setup
+
+```bash
+git clone <repository-url>
+cd TalentFilter
+cp .env.example .env
+docker compose up -d --build
+```
+
+---
+
+## LinkedIn, KVKK and Responsible Use
+
+### Türkçe
+
+Bu proje yalnızca **eğitim, araştırma ve prototip geliştirme amacıyla** hazırlanmıştır.
+
+Proje LinkedIn tarafından geliştirilmemiş veya desteklenmemiştir. LinkedIn kullanım koşullarının, güvenlik önlemlerinin veya CAPTCHA sistemlerinin aşılması amacıyla kullanılmamalıdır.
+
+Kişisel verileri işleyen kullanıcı veya kurum; KVKK, ilgili mevzuat, veri minimizasyonu, güvenlik, saklama ve aydınlatma yükümlülüklerine uymaktan sorumludur.
+
+Yazılımın kullanımından doğabilecek hukuki, idari ve platform kaynaklı sonuçlar tamamen kullanan kişi veya kuruma aittir.
+
+### English
+
+This project is provided only for **education, research, and prototype development**.
+
+It is not developed or endorsed by LinkedIn and must not be used to bypass platform terms, security controls, or CAPTCHA systems.
+
+The user or organization operating the software is responsible for complying with applicable privacy laws, platform rules, data-security requirements, and retention obligations.
+
+All legal, administrative, and contractual responsibility arising from the use of the project belongs to the user.
