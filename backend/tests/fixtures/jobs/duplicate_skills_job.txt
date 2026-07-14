@@ -1,0 +1,6 @@
+Requirements:
+- Python is required.
+- PYTHON experience is mandatory.
+
+Preferred Qualifications:
+- Python and Docker are preferred.

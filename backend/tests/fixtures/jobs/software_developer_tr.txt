@@ -1,0 +1,10 @@
+Aranan Nitelikler:
+- En az 3 yıl Python, FastAPI ve PostgreSQL deneyimi zorunludur.
+- Bilgisayar Mühendisliği veya ilgili bölümlerden lisans mezunu.
+- İyi derecede İngilizce.
+
+Tercihen:
+- Docker ve Kubernetes bilgisi.
+
+Lokasyon:
+- Bursa, Türkiye - Hibrit

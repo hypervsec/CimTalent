@@ -1,0 +1,5 @@
+Must Have:
+- Python and SQL are required.
+
+Nice to Have:
+- Docker, Kubernetes and AWS are preferred.

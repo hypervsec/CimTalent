@@ -1,0 +1,3 @@
+https://www.linkedin.com/in/demo-candidate-one/?trk=test
+https://github.com/example-engineer?utm_source=manual
+mailto:invalid@example.com

@@ -1,0 +1,1 @@
+"""CimTalent AI backend application."""

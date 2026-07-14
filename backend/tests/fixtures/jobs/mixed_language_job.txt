@@ -1,0 +1,7 @@
+Requirements:
+- En az 2 yıl Python ve SQL Server deneyimi.
+- Bachelor's degree in Computer Engineering.
+- Fluent English ve iyi derecede Almanca.
+
+Lokasyon:
+- İstanbul / Hybrid

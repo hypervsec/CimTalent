@@ -1,0 +1,10 @@
+Requirements:
+- Minimum 2 years of experience with Python, Django and REST APIs.
+- Bachelor's degree in Computer Engineering or Software Engineering.
+- Fluent English.
+
+Nice to Have:
+- AWS and Docker.
+
+Location:
+- Remote, Turkey
