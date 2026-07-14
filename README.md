@@ -1,25 +1,53 @@
-# CimTalent AI
+# TalentFilter AI
 
-CimTalent AI için aşamalı geliştirilen işe alım karar destek platformu.
+TalentFilter AI, iş ilanı ayrıştırma, aday keşfi, enrichment, eşleştirme ve recruiter shortlist süreçleri için uçtan uca MVP’dir.
 
-Bu revizyonda test edilmiş backend iskeleti, ORM/Alembic domain katmanı ve temel Job CRUD API bulunmaktadır. Kurulum ve
-çalıştırma adımları için [backend/README.md](backend/README.md) belgesine bakın.
+## Mimari
 
-## Mevcut aşama
+`frontend` React/Vite uygulamasıdır; Nginx `/api/` çağrılarını FastAPI `backend` servisine yönlendirir. Backend Alembic migration’larıyla PostgreSQL `db` servisini kullanır. Compose servisleri: `db`, `backend`, `frontend`.
 
-- FastAPI uygulama fabrikası
-- Sürümlü API router yapısı
-- Pydantic Settings tabanlı konfigürasyon
-- Yapılandırılmış JSON loglama ve hassas alan maskeleme
-- SQLAlchemy 2 async engine/session temeli
-- UTC ve UUID model mixin'leri
-- 13 ilişkili ORM domain tablosu ve 14 enum sınıfı
-- PostgreSQL JSONB / SQLite JSON uyumlu mutable alanlar
-- Async Alembic ve ilk domain migration'ı
-- JobPosting şemaları, repository/service katmanı ve CRUD endpoint'leri
-- Filtreleme, güvenli sıralama, pagination ve standart domain hata response'ları
-- `GET /api/v1/health`
-- pytest, coverage, Ruff ve mypy yapılandırması
+## Hızlı başlangıç
 
-Parser, matching algoritması, scraping, worker, Docker ve frontend
-sonraki aşamalara bırakılmıştır.
+Windows:
+
+`copy .env.example .env`
+
+`docker compose up --build`
+
+Linux/macOS:
+
+`cp .env.example .env`
+
+`docker compose up --build`
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+
+## Migration, demo seed ve smoke
+
+`docker compose exec backend alembic upgrade head`
+
+`docker compose exec backend python -m app.scripts.seed_demo`
+
+`docker compose exec backend python -m app.scripts.demo_smoke`
+
+## Test ve manuel geliştirme
+
+Backend: `cd backend` ardından `pytest`, `ruff check app tests`, `mypy app`.
+
+Frontend: `cd frontend`, `npm install`, ardından `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`.
+
+Makefile: `up`, `down`, `build`, `logs`, `backend-logs`, `frontend-logs`, `migrate`, `seed`, `smoke`, `test-backend`, `test-frontend`, `test`, `lint`, `clean`.
+
+## Uçtan uca demo
+
+Demo ilanını açın, requirement ve X-Ray sorgularını inceleyin; SearchResult’tan aday keşfedin, fixture enrichment çalıştırın, match detayını görüntüleyin, shortlist not/durumunu güncelleyin ve CSV indirin.
+
+## LinkedIn ve güvenlik
+
+Fixture enrichment varsayılan olarak açıktır ve ağ çağrısı gerektirmez. Live LinkedIn özelliği varsayılan kapalıdır. `.env`, `.sessions` ve `.artifacts` kaynak kontrolüne alınmamalıdır; production için örnek şifreler değiştirilmeli ve güçlü secret’lar kullanılmalıdır.
+
+## Bilinen sınırlamalar
+
+Bu MVP’de auth, Redis/Celery/worker, LLM/embedding, canlı kişi araması, production TLS ve cloud deployment yoktur.

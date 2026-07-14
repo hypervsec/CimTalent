@@ -41,12 +41,8 @@ class TopCardParser:
         return ParserResult(
             value=EnrichedCandidateIdentity(
                 full_name=ExtractedText(name, "linkedin", 0.98),
-                headline=ExtractedText(headline, "linkedin", 0.98)
-                if headline
-                else None,
-                location_raw=ExtractedText(location, "linkedin", 0.98)
-                if location
-                else None,
+                headline=ExtractedText(headline, "linkedin", 0.98) if headline else None,
+                location_raw=ExtractedText(location, "linkedin", 0.98) if location else None,
                 open_to_work=ExtractedBoolean(True, "linkedin", 0.95) if open_node else None,
             ),
             selectors_used=selectors,

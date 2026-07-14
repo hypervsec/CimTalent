@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-talentfilter}
+      POSTGRES_USER: ${POSTGRES_USER:-talentfilter}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-talentfilter_dev_password}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    ports: ["${POSTGRES_PORT:-5432}:5432"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"], interval: 5s, timeout: 5s, retries: 20 }
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://talentfilter:talentfilter_dev_password@db:5432/talentfilter}
+      DEBUG: ${DEBUG:-false}
+      ENABLE_LINKEDIN_PROFILE_SCRAPING: ${ENABLE_LINKEDIN_PROFILE_SCRAPING:-false}
+      ENABLE_LINKEDIN_FIXTURE_PROVIDER: ${ENABLE_LINKEDIN_FIXTURE_PROVIDER:-true}
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
+    ports: ["${BACKEND_PORT:-8000}:8000"]
+    depends_on: { db: { condition: service_healthy } }
+    healthcheck: { test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"], interval: 10s, timeout: 5s, retries: 10 }
+  frontend:
+    build: ./frontend
+    ports: ["${FRONTEND_PORT:-3000}:80"]
+    depends_on: { backend: { condition: service_healthy } }
+    healthcheck: { test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null"], interval: 10s, timeout: 5s, retries: 10 }
+volumes: { postgres_data: {} }
