@@ -5,6 +5,7 @@ from app.domain.jobs.exceptions import (
     JobNotFoundError,
     JobPersistenceError,
     JobValidationError,
+    MatchNotFoundError,
 )
 from app.domain.jobs.parser_exceptions import (
     EmptyJobDescriptionError,
@@ -35,6 +36,7 @@ __all__ = [
     "JobSortField",
     "JobValidationError",
     "JobWithCounts",
+    "MatchNotFoundError",
     "PagedJobs",
     "RequirementPersistenceError",
     "SortDirection",

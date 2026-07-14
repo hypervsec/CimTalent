@@ -21,6 +21,11 @@ class JobNotFoundError(JobDomainError):
     default_message = "Job posting was not found."
 
 
+class MatchNotFoundError(JobNotFoundError):
+    code = "match_not_found"
+    default_message = "Candidate match was not found."
+
+
 class JobValidationError(JobDomainError):
     code = "job_validation_error"
     default_message = "Job posting data is invalid."

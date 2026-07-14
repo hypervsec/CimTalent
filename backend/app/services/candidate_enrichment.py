@@ -140,8 +140,10 @@ class CandidateEnrichmentService:
         session: AsyncSession,
         candidate_id: UUID,
         payload: CandidateEnrichmentImportRequest,
+        *,
+        allow_linkedin: bool = False,
     ) -> EnrichmentOutcome:
-        self._validate_provider(payload.provider)
+        self._validate_provider(payload.provider, allow_linkedin=allow_linkedin)
         candidate = await self._load_candidate(session, candidate_id)
         prepared = self.build_result(payload)
         diff = self.calculate_diff(candidate, prepared, payload)
@@ -572,8 +574,11 @@ class CandidateEnrichmentService:
         return candidate
 
     @staticmethod
-    def _validate_provider(provider: EnrichmentProvider) -> None:
-        if provider is not EnrichmentProvider.MANUAL:
+    def _validate_provider(provider: EnrichmentProvider, *, allow_linkedin: bool = False) -> None:
+        allowed = {EnrichmentProvider.MANUAL}
+        if allow_linkedin:
+            allowed.add(EnrichmentProvider.LINKEDIN)
+        if provider not in allowed:
             raise UnsupportedEnrichmentProviderError("Only the manual provider is implemented.")
 
     @staticmethod

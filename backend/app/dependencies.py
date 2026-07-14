@@ -4,21 +4,27 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db_session
+from app.domain.matching.engine import RuleBasedMatchingEngine
 from app.parsers.jobs.rule_based import RuleBasedJobParser
 from app.repositories.candidate_enrichment import CandidateEnrichmentRepository
+from app.repositories.candidate_matches import CandidateMatchRepository
 from app.repositories.candidates import CandidateRepository
 from app.repositories.enrichment_runs import EnrichmentRunRepository
 from app.repositories.job_requirements import JobRequirementRepository
 from app.repositories.jobs import JobRepository
 from app.repositories.search_queries import SearchQueryRepository
 from app.repositories.search_results import SearchResultRepository
+from app.repositories.shortlists import ShortlistRepository
 from app.services.candidate_discovery import CandidateDiscoveryService
 from app.services.candidate_enrichment import CandidateEnrichmentService
 from app.services.candidates import CandidateService
 from app.services.job_parsing import JobParsingService
 from app.services.jobs import JobService
+from app.services.linkedin_enrichment import LinkedInCandidateEnrichmentService
+from app.services.matching import CandidateMatchingService
 from app.services.query_generation import QueryGenerationService
 from app.services.search_result_import import SearchResultImportService
+from app.services.shortlists import ShortlistService
 from app.sourcing.manual_result_parser import ManualSearchResultParser
 from app.sourcing.query_generator import GoogleXRayQueryGenerator
 
@@ -66,6 +72,19 @@ def get_candidate_enrichment_service(
 
 CandidateEnrichmentServiceDependency = Annotated[
     CandidateEnrichmentService, Depends(get_candidate_enrichment_service)
+]
+
+
+def get_linkedin_enrichment_service(
+    enrichment_service: CandidateEnrichmentServiceDependency,
+) -> LinkedInCandidateEnrichmentService:
+    from app.config import get_settings
+
+    return LinkedInCandidateEnrichmentService(enrichment_service, get_settings())
+
+
+LinkedInEnrichmentServiceDependency = Annotated[
+    LinkedInCandidateEnrichmentService, Depends(get_linkedin_enrichment_service)
 ]
 
 
@@ -185,3 +204,44 @@ def get_search_result_import_service(
 SearchResultImportServiceDependency = Annotated[
     SearchResultImportService, Depends(get_search_result_import_service)
 ]
+
+
+def get_candidate_match_repository() -> CandidateMatchRepository:
+    return CandidateMatchRepository()
+
+
+CandidateMatchRepositoryDependency = Annotated[
+    CandidateMatchRepository, Depends(get_candidate_match_repository)
+]
+
+
+def get_matching_engine() -> RuleBasedMatchingEngine:
+    return RuleBasedMatchingEngine()
+
+
+def get_candidate_matching_service(
+    repository: CandidateMatchRepositoryDependency,
+) -> CandidateMatchingService:
+    return CandidateMatchingService(repository, get_matching_engine())
+
+
+CandidateMatchingServiceDependency = Annotated[
+    CandidateMatchingService, Depends(get_candidate_matching_service)
+]
+
+
+def get_shortlist_repository() -> ShortlistRepository:
+    return ShortlistRepository()
+
+
+ShortlistRepositoryDependency = Annotated[ShortlistRepository, Depends(get_shortlist_repository)]
+
+
+def get_shortlist_service(
+    repository: ShortlistRepositoryDependency,
+    match_repository: CandidateMatchRepositoryDependency,
+) -> ShortlistService:
+    return ShortlistService(repository, match_repository)
+
+
+ShortlistServiceDependency = Annotated[ShortlistService, Depends(get_shortlist_service)]

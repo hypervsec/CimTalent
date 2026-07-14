@@ -326,6 +326,32 @@ Deneyim süresi çakışan ayları iki kez saymaz ve UTC tarihine göre determin
 Başarılı import sonunda quality score yeniden hesaplanır; FAST profil `partial`, eksiksiz DEEP
 profil `scraped` olur. Run kaydı yalnız güvenli özet ve sayaçları saklar; payload/HTML saklamaz.
 
+## Job–Candidate matching
+
+Parsed job requirements can be scored deterministically against candidate profiles.
+
+- `POST /api/v1/jobs/{job_id}/matches/calculate`
+- `POST /api/v1/jobs/{job_id}/candidates/{candidate_id}/match`
+- `GET /api/v1/jobs/{job_id}/matches`
+- `GET /api/v1/matches/{match_id}`
+- `POST /api/v1/matches/{match_id}/recalculate`
+
+The rule engine stores category scores, matched/missing/uncertain requirements and a
+deterministic explanation under `score_version=rule-v1`. Matching requires a parsed job;
+all-candidate calculation uses candidates attached to that job's search results.
+
+## Recruiter shortlist workflow
+
+Job bazlı recruiter shortlist akışı aşağıdaki endpointleri içerir:
+
+- `POST /api/v1/jobs/{job_id}/shortlist/{candidate_id}`
+- `GET /api/v1/jobs/{job_id}/shortlist`
+- `GET`, `PATCH`, `DELETE /api/v1/shortlist/{shortlist_id}`
+- `GET /api/v1/jobs/{job_id}/shortlist/export.csv`
+
+Kayıtlar job-candidate çifti için upsert edilir; response opsiyonel match özetini döner.
+CSV UTF-8 BOM ile üretilir ve formül karakterleriyle başlayan hücreler güvenli biçimde escape edilir.
+
 ## Browser ve LinkedIn session altyapısı
 
 Playwright adapter'ı async context manager, timeout, viewport, storage-state ve güvenli kapanış

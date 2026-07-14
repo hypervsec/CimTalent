@@ -116,6 +116,9 @@ class EnrichmentItemError:
     code: str
     message: str
     item_index: int | None = None
+    recoverable: bool = True
+    selector_key: str | None = None
+    source_url: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

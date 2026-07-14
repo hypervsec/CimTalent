@@ -1,0 +1,126 @@
+@import "tailwindcss";
+body {
+  margin: 0;
+  background: #f6f8fb;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+aside {
+  background: #102a43;
+  color: #fff;
+  padding: 24px;
+}
+aside h1 {
+  font-size: 20px;
+}
+nav {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+a {
+  color: #1769aa;
+  text-decoration: none;
+}
+aside a {
+  color: #d9e2ec;
+}
+main {
+  padding: 28px;
+}
+header {
+  font-size: 14px;
+  color: #627d98;
+  margin-bottom: 24px;
+}
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 3px #d9e2ec;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+th,
+td {
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px;
+}
+.status,
+.score {
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+.status {
+  background: #d9e2ec;
+}
+.high {
+  background: #d1fae5;
+}
+.medium {
+  background: #fef3c7;
+}
+.low,
+.error {
+  background: #fee2e2;
+}
+form {
+  display: grid;
+  gap: 14px;
+  max-width: 600px;
+}
+label {
+  display: grid;
+  gap: 6px;
+}
+textarea {
+  min-height: 40px;
+}
+button {
+  width: max-content;
+  background: #1769aa;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  padding: 9px 14px;
+  margin: 10px 8px 10px 0;
+}
+.empty {
+  color: #627d98;
+}
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 12px;
+  }
+  aside h1 {
+    margin: 0;
+  }
+  aside nav {
+    display: flex;
+    margin: 0;
+  }
+  main {
+    padding: 12px;
+  }
+}
